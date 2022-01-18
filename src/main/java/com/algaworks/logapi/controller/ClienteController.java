@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -40,5 +41,17 @@ public class ClienteController {
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente adiciona(@RequestBody Cliente cliente) {
 		return repository.save(cliente);
+	}
+	
+	@PutMapping("/{clienteId}")
+	public ResponseEntity<Cliente> atualizar(@PathVariable Long clienteId,
+			@RequestBody Cliente cliente) {
+		if (!repository.existsById(clienteId)) {
+			return ResponseEntity.noContent().build();	
+		}
+		
+		cliente.setId(clienteId);
+		cliente = repository.save(cliente);
+		return ResponseEntity.ok(cliente);		
 	}
 }
