@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.algaworks.logapi.domain.exception.DomainException;
+
+import org.springframework.web.bind.annotation.ExceptionHandler;
+
 @ControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	@Autowired
 	private MessageSource messageSource;
@@ -42,5 +46,17 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
 		problem.setCampos(campos);
 		
 		return handleExceptionInternal(ex, problem, headers, status, request);
+	}
+	
+	@ExceptionHandler(DomainException.class)
+	public ResponseEntity<Object> handleNegocio(DomainException ex, WebRequest request) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		
+		Problem problem = new Problem();
+		problem.setStatus(status.value());
+		problem.setDataHota(LocalDateTime.now());
+		problem.setTitulo(ex.getMessage());
+		
+		return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
 	}
 }
