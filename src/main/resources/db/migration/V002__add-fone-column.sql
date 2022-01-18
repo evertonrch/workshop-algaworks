@@ -1,0 +1,1 @@
+ALTER TABLE cliente ADD COLUMN telefone VARCHAR(80) NOT NULL;

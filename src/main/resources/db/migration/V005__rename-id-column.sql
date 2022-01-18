@@ -1,0 +1,1 @@
+ALTER TABLE tb_cliente RENAME COLUMN id_cliente TO id;
