@@ -33,5 +33,10 @@ build/
 .vscode/
 
 ### Maven ###
+<<<<<<< HEAD
 .mvn/*
 mvn/*
+=======
+.mvn*
+mvn*
+>>>>>>> 156c568de9d9185a4cb366c66f00cd08d2fe194c
